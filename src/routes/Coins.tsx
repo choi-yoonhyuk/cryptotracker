@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -22,9 +24,11 @@ const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
+  border: 1px solid white;
   a {
     display: flex;
     align-items: center;
@@ -54,6 +58,53 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const Btn = styled.button``;
+
+const CheckBoxWrapper = styled.div`
+  position: relative;
+  margin-left: 60px;
+`;
+const CheckBoxLabel = styled.label`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 26px;
+  border-radius: 15px;
+  background: #bebebe;
+  cursor: pointer;
+  &::after {
+    content: "";
+    display: block;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin: 3px;
+    background: #ffffff;
+    box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+  }
+`;
+const CheckBox = styled.input`
+  opacity: 0;
+  z-index: 1;
+  border-radius: 15px;
+  width: 20px;
+  height: 15px;
+  &:checked + ${CheckBoxLabel} {
+    background: #a29bfe;
+    &::after {
+      content: "";
+      display: block;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      margin-left: 21px;
+      transition: 0.2s;
+    }
+  }
+`;
+
 interface CoinInterface {
   id: string;
   name: string;
@@ -63,6 +114,8 @@ interface CoinInterface {
   is_active: boolean;
   type: string;
 }
+
+interface ICoinsProps {}
 
 function Coins() {
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
@@ -76,6 +129,8 @@ function Coins() {
   //   })();
   // }, []);
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   return (
     <Container>
       <Helmet>
@@ -83,6 +138,10 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>Coin (Top100)</Title>
+        <CheckBoxWrapper>
+          <CheckBox id="checkbox" type="checkbox" onClick={toggleDarkAtom} />
+          <CheckBoxLabel htmlFor="checkbox" />
+        </CheckBoxWrapper>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
