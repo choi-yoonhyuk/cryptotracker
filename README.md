@@ -1,3 +1,3 @@
-## Crypto Tracker
+## CC
 
-Crypto Tracker made of react.
+CC made of react.
