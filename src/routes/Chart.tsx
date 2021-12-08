@@ -28,32 +28,47 @@ const Chart = ({ coinId }: ChartProps) => {
       refetchInterval: 10000,
     }
   );
+  console.log(
+    data?.map((price) => ({
+      x: price.time_close,
+      y: [price.open, price.high, price.low, price.close],
+    }))
+  );
   return (
     <div>
       {isLoading ? (
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
               name: "Price",
-              data: data?.map((price) => price.close),
+              data: data?.map((price) => ({
+                x: price.time_close,
+                y: [
+                  price.open.toFixed(2),
+                  price.high.toFixed(2),
+                  price.low.toFixed(2),
+                  price.close.toFixed(2),
+                ],
+              })),
             },
           ]}
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
-              height: 300,
+              type: "candlestick",
+              height: 900,
               width: 500,
               toolbar: {
                 show: false,
               },
               background: "transparent",
             },
-            grid: { show: false },
+            grid: { show: true },
             stroke: {
               curve: "smooth",
               width: 4,
@@ -62,15 +77,15 @@ const Chart = ({ coinId }: ChartProps) => {
               show: false,
             },
             xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
+              axisBorder: { show: true },
+              axisTicks: { show: true },
+              labels: { show: true },
               type: "datetime",
               categories: data?.map((price) => price.time_close),
             },
             fill: {
               type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 10] },
             },
             colors: ["#0fbcf9"],
             tooltip: {

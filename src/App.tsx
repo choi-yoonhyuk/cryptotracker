@@ -57,7 +57,7 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: system-ui;
   background-color:${(props) => props.theme.bgColor};
   color:${(props) => props.theme.textColor};
   font-weight: 300;
