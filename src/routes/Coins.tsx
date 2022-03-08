@@ -7,6 +7,17 @@ import { Helmet } from "react-helmet";
 import { useSetRecoilState } from "recoil";
 import { isDarkAtom } from "../atoms";
 
+import LogoSrc from "../../src/coinlogo.png";
+
+const LogoContainer = styled.div`
+  padding-right: 20px;
+`;
+
+const Logo = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
@@ -18,6 +29,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 90px;
 `;
 
 const CoinsList = styled.ul``;
@@ -44,6 +56,8 @@ const Coin = styled.li`
 
 const Title = styled.h1`
   font-size: 48px;
+  font-weight: bold;
+  font-family: "Anton", sans-serif;
   color: ${(props) => props.theme.accentColor};
 `;
 
@@ -58,16 +72,13 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-const Btn = styled.button``;
-
 const CheckBoxWrapper = styled.div`
   position: relative;
-  margin-left: 60px;
+  margin-left: 80px;
 `;
 const CheckBoxLabel = styled.label`
   position: absolute;
-  top: 0;
-  left: 0;
+
   width: 42px;
   height: 26px;
   border-radius: 15px;
@@ -137,7 +148,10 @@ function Coins() {
         <title>Coin (Top100)</title>
       </Helmet>
       <Header>
-        <Title>Coin (Top100)</Title>
+        <LogoContainer>
+          <Logo src={LogoSrc} />
+        </LogoContainer>
+        <Title>Coin</Title>
         <CheckBoxWrapper>
           <CheckBox id="checkbox" type="checkbox" onClick={toggleDarkAtom} />
           <CheckBoxLabel htmlFor="checkbox" />
